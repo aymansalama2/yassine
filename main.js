@@ -2,30 +2,217 @@ const DEFAULT_PRODUCT_IMAGE = 'https://images.unsplash.com/photo-1585386959984-a
 const DEFAULT_PRODUCT_IMAGE_SMALL = 'https://images.unsplash.com/photo-1585386959984-a4155223f3f8?auto=format&fit=crop&w=300&q=80';
 
 let products = [
-  { id: 1, name: 'Coco Mademoiselle', brand: 'Inspiration', category: 'femme', price: 89.9, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 2, name: 'La Vie est Belle', brand: 'Inspiration', category: 'femme', price: 84.5, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 3, name: 'Evidence', brand: 'Inspiration', category: 'femme', price: 59.9, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 4, name: 'Good Girl', brand: 'Inspiration', category: 'femme', price: 82.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 5, name: 'Hypnotique Poison', brand: 'Inspiration', category: 'femme', price: 79.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 6, name: 'Scandal', brand: 'Inspiration', category: 'femme', price: 78.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 7, name: 'Libre', brand: 'Inspiration', category: 'femme', price: 86.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 8, name: 'Burberry Her', brand: 'Inspiration', category: 'femme', price: 75.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 9, name: `L'Impératrice`, brand: 'Inspiration', category: 'femme', price: 69.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 10, name: 'Light Blue', brand: 'Inspiration', category: 'femme', price: 72.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 11, name: 'Escada Taj', brand: 'Inspiration', category: 'femme', price: 65.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 12, name: 'Kayali Coco Vanilla 28', brand: 'Inspiration', category: 'femme', price: 88.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 13, name: 'Sauvage', brand: 'Inspiration', category: 'homme', price: 92.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 14, name: 'Bleu de Chanel', brand: 'Inspiration', category: 'homme', price: 95.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 15, name: 'Aventus Creed', brand: 'Inspiration', category: 'homme', price: 120.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 16, name: 'Invictus', brand: 'Inspiration', category: 'homme', price: 79.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 17, name: `Acqua di Giò`, brand: 'Inspiration', category: 'homme', price: 80.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 18, name: 'Eros Versace', brand: 'Inspiration', category: 'homme', price: 85.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 19, name: 'Stronger With You', brand: 'Inspiration', category: 'homme', price: 83.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 20, name: 'Ultra Male', brand: 'Inspiration', category: 'homme', price: 82.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 21, name: 'Lacoste Noir', brand: 'Inspiration', category: 'homme', price: 70.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 22, name: 'Imagination', brand: 'Inspiration', category: 'homme', price: 115.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 23, name: `Black XS L'Excès`, brand: 'Inspiration', category: 'homme', price: 76.0, image: DEFAULT_PRODUCT_IMAGE },
-  { id: 24, name: 'Azzaro Wanted', brand: 'Inspiration', category: 'homme', price: 78.0, image: DEFAULT_PRODUCT_IMAGE },
+  // Parfums féminins
+  {
+    id: 1,
+    name: 'Coco Mademoiselle',
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 89.9,
+    image:
+      'Coco Mademoiselle Chanel Eau de Parfum - KOSMENIA Maroc – Kosmenia/imgi_5_chanel_coco_mademoiselle_eau_de_parfum_a3_1024x1024@2x.jpg',
+  },
+  {
+    id: 2,
+    name: 'La Vie est Belle',
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 84.5,
+    image:
+      'La Vie Est Belle - Eau de Parfum Rechargeable de LANCÔME ≡ SEPHORA/imgi_70_280465-media_swatch.jpg',
+  },
+  {
+    id: 3,
+    name: 'Evidence',
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 59.9,
+    image: 'evidence parfum - Recherche Google/imgi_210_41-1.jpg',
+  },
+  {
+    id: 4,
+    name: 'Good Girl',
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 82.0,
+    image:
+      'Good Girlparfum - Recherche Google/imgi_167_CAROLINA_HERRERA_GOOD_GIRL_SUPREME_Eau_De_Parfum_foryou.ma.jpg',
+  },
+  {
+    id: 5,
+    name: 'Hypnotique Poison',
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 79.0,
+    image: 'Hypnotique parfum - Recherche Google/imgi_144_IMG-5216.jpg',
+  },
+  {
+    id: 6,
+    name: 'Scandal',
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 78.0,
+    image: 'Scandalparfum - Recherche Google/imgi_138_e939cecJEANP00000200_4.jpg',
+  },
+  {
+    id: 7,
+    name: 'Libre',
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 86.0,
+    image:
+      'Libre parfum - Recherche Google/imgi_149_ysl_feminine-fragrance_libre-edp_packshot-still-life-visual_square_rgb_3543x.jpg',
+  },
+  {
+    id: 8,
+    name: 'Burberry Her',
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 75.0,
+    image:
+      'Burberry Her parfum - Recherche Google/imgi_114_3614227693876BYF_HER_EDP_22_100ml.tif-JPG-300dpi.jpg',
+  },
+  {
+    id: 9,
+    name: `L'Impératrice`,
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 69.0,
+    image: 'Impératrice parfum - Recherche Google/imgi_125_p245901-av-15-zoom.jpg',
+  },
+  {
+    id: 10,
+    name: 'Light Blue',
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 72.0,
+    image:
+      'Light Blue parfum - Recherche Google/imgi_171_image_c27a2530-8323-4bc3-a44a-a4f7b6d959b0.jpg',
+  },
+  {
+    id: 11,
+    name: 'Escada Taj',
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 65.0,
+    image:
+      'Escada Taj parfum - Recherche Google/imgi_188_escada-taj-sunset-1646405894_1000x0 (1).jpg',
+  },
+  {
+    id: 12,
+    name: 'Kayali Coco Vanilla 28',
+    brand: 'Inspiration',
+    category: 'femme',
+    price: 88.0,
+    image:
+      'Kayali Coco Vanilla 28 parfum - Recherche Google/imgi_146_31356731-CD55-45DC-86ED-97A6B68D61E2.png',
+  },
+  // Parfums masculins
+  {
+    id: 13,
+    name: 'Sauvage',
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 92.0,
+    image:
+      'Sauvage parfum - Recherche Google/imgi_199_Sauvage_Dior_Sauvage_Eau_de_Parfum_60_ml_Dior_Sauvage.jpg',
+  },
+  {
+    id: 14,
+    name: 'Bleu de Chanel',
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 95.0,
+    image:
+      'Bleu de Chanel parfum - Recherche Google/imgi_170_F9FD7B76-268F-40AE-9DF5-BCA70DD2B429.jpg',
+  },
+  {
+    id: 15,
+    name: 'Aventus Creed',
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 120.0,
+    image:
+      'Aventus Creed parfum - Recherche Google/imgi_157_8e01c410-ccfa-40b7-b813-6c5f6c1137a9_75040bb1-1fe1-4c88-bf69-c74b64276ecc.jpg',
+  },
+  {
+    id: 16,
+    name: 'Invictus',
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 79.0,
+    image:
+      'Invictus parfum - Recherche Google/imgi_125_image_13047919-02ad-4616-874e-4a8a16be1b21.jpg',
+  },
+  {
+    id: 17,
+    name: `Acqua di Giò`,
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 80.0,
+    image:
+      'Acqua di Giò parfum - Recherche Google/imgi_154_1._acqua_di_gio_le_parfum_packshot_50ml.png',
+  },
+  {
+    id: 18,
+    name: 'Eros Versace',
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 85.0,
+    image: 'Eros Versace parfum - Recherche Google/imgi_147_EROS.png',
+  },
+  {
+    id: 19,
+    name: 'Stronger With You',
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 83.0,
+    image:
+      'Stronger With You parfum - Recherche Google/imgi_164_design-sans-titre-2024-03-15t154455.793.jpg',
+  },
+  {
+    id: 20,
+    name: 'Ultra Male',
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 82.0,
+    image:
+      'Ultra Male parfum - Recherche Google/imgi_115_ULTRA_MALE_L_Eau_De_Toilette_intense_JEAN_PAUL_GAULTIER_foryou.ma.jpg',
+  },
+  {
+    id: 21,
+    name: 'Lacoste Noir',
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 70.0,
+    image:
+      'Lacoste Noir parfum - Recherche Google/imgi_175_lacostenoir-man_0a9b301c-d4c3-4d7b-8cda-550bf86587b9.jpg',
+  },
+  {
+    id: 22,
+    name: 'Imagination',
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 115.0,
+    image: 'Imagination parfum - Recherche Google/imgi_126_IMG-1492.jpg',
+  },
+  {
+    id: 23,
+    name: `Black XS L'Excès`,
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 76.0,
+    image:
+      "Black XS L'Excès parfum - Recherche Google/imgi_179_pacoblacklexcessed-woman_64d43d3b-8139-49bf-8149-9545a6a7bf26.jpg",
+  },
+  {
+    id: 24,
+    name: 'Azzaro Wanted',
+    brand: 'Inspiration',
+    category: 'homme',
+    price: 78.0,
+    image: 'Azzaro Wanted parfum - Recherche Google/imgi_122_TheMostWantedEDP100ml.png',
+  },
 ];
 
 const productsGrid = document.getElementById('productsGrid');
@@ -52,6 +239,7 @@ const adminCategoryInput = document.getElementById('adminCategory');
 const adminPriceInput = document.getElementById('adminPrice');
 const adminResetBtn = document.getElementById('adminReset');
 const adminImageInput = document.getElementById('adminImage');
+const adminSearchInput = document.getElementById('adminSearch');
 
 const yearSpan = document.getElementById('year');
 if (yearSpan) yearSpan.textContent = new Date().getFullYear();
@@ -105,6 +293,7 @@ function renderProducts(list) {
             src="${p.image || DEFAULT_PRODUCT_IMAGE}"
             alt="Parfum ${p.name}"
             class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            onerror="this.src='${DEFAULT_PRODUCT_IMAGE}'"
           />
           <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-primary-950/70"></div>
           <div class="absolute -bottom-6 right-4 w-16 h-16 bg-accent/40 blur-2xl"></div>
@@ -135,6 +324,12 @@ function renderProducts(list) {
       const id = Number(btn.getAttribute('data-id'));
       addToCart(id);
     });
+  });
+}
+
+if (adminSearchInput) {
+  adminSearchInput.addEventListener('input', () => {
+    renderAdminList();
   });
 }
 
@@ -206,6 +401,7 @@ function renderCart() {
           src="${item.image || DEFAULT_PRODUCT_IMAGE_SMALL}"
           alt="Parfum ${item.name}"
           class="h-full w-full object-cover object-center"
+          onerror="this.src='${DEFAULT_PRODUCT_IMAGE_SMALL}'"
         />
       </div>
       <div class="flex-1">
@@ -367,15 +563,25 @@ function renderAdminList() {
   if (!adminList) return;
   adminList.innerHTML = '';
 
-  products.forEach((p) => {
+  const term = adminSearchInput ? adminSearchInput.value.toLowerCase().trim() : '';
+
+  const source = term
+    ? products.filter((p) => p.name.toLowerCase().includes(term) || String(p.id).includes(term))
+    : products;
+
+  source.forEach((p) => {
     const tr = document.createElement('tr');
     tr.className = 'hover:bg-primary-900/50';
     tr.innerHTML = `
-      <td class="px-4 py-2 align-middle text-slate-400">${p.id}</td>
+      <td class="px-3 py-2 align-middle">
+        <div class="w-9 h-9 rounded-md bg-primary-900/80 border border-white/10 overflow-hidden">
+          <img src="${p.image || DEFAULT_PRODUCT_IMAGE_SMALL}" alt="${p.name}" class="w-full h-full object-cover" onerror="this.src='${DEFAULT_PRODUCT_IMAGE_SMALL}'" />
+        </div>
+      </td>
       <td class="px-2 py-2 align-middle">${p.name}</td>
       <td class="px-2 py-2 align-middle text-slate-300 text-[11px]">${p.category}</td>
-      <td class="px-4 py-2 align-middle text-right">${formatPrice(p.price)}</td>
-      <td class="px-4 py-2 align-middle text-right space-x-2">
+      <td class="px-3 py-2 align-middle text-right">${formatPrice(p.price)}</td>
+      <td class="px-3 py-2 align-middle text-right space-x-2">
         <button data-id="${p.id}" class="admin-edit text-[11px] text-accent hover:text-white">Éditer</button>
         <button data-id="${p.id}" class="admin-delete text-[11px] text-red-400 hover:text-red-300">Supprimer</button>
       </td>

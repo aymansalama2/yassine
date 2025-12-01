@@ -244,19 +244,32 @@
         </div>
         <div class="grid md:grid-cols-[1.3fr,0.9fr] gap-0 flex-1 overflow-hidden text-sm">
           <div class="border-r border-white/10 flex flex-col">
-            <div class="px-6 py-3 border-b border-white/10 flex items-center justify-between">
-              <p class="text-xs text-slate-300">Liste des parfums</p>
-              <p class="text-[11px] text-slate-500">Codes clavier : 1 2 3 4 5 6</p>
+            <div class="px-6 py-3 border-b border-white/10 flex flex-col gap-2">
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-xs text-slate-300">Liste des parfums</p>
+                <p class="text-[11px] text-slate-500">Codes clavier : 1 2 3 4 5 6</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="relative flex-1">
+                  <i class="fa-solid fa-magnifying-glass text-slate-500 absolute left-3 top-2.5 text-[10px]"></i>
+                  <input
+                    id="adminSearch"
+                    type="text"
+                    placeholder="Rechercher dans l'admin..."
+                    class="w-full rounded-full bg-primary-900 border border-white/10 pl-7 pr-3 py-1.5 text-[11px] text-slate-200 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-accent/60"
+                  />
+                </div>
+              </div>
             </div>
             <div class="flex-1 overflow-auto">
               <table class="w-full text-xs">
                 <thead class="bg-primary-900/80 border-b border-white/10 text-slate-300">
                   <tr>
-                    <th class="text-left px-4 py-2 font-medium">ID</th>
+                    <th class="text-left px-3 py-2 font-medium w-12">Img</th>
                     <th class="text-left px-2 py-2 font-medium">Nom</th>
                     <th class="text-left px-2 py-2 font-medium">Cat.</th>
-                    <th class="text-right px-4 py-2 font-medium">Prix</th>
-                    <th class="text-right px-4 py-2 font-medium">Actions</th>
+                    <th class="text-right px-3 py-2 font-medium">Prix</th>
+                    <th class="text-right px-3 py-2 font-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="adminList" class="divide-y divide-white/5"></tbody>
