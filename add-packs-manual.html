@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajout Manuel des Packs - ZAINE PARFUM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+
+<body
+    class="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-950 flex items-center justify-center p-4 text-white">
+
+    <div class="max-w-3xl w-full bg-blue-950/80 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-8">
+        <h1 class="text-2xl font-bold mb-6 text-center">✋ Ajout Manuel des Packs</h1>
+
+        <div id="status" class="mb-6 p-4 rounded-xl bg-blue-900/50 border border-white/10">
+            <p class="text-sm">Instructions ci-dessous</p>
+        </div>
+
+        <div class="space-y-4 mb-6 text-sm">
+            <div class="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+                <h3 class="font-bold mb-2">🔥 Option 1 : Via Firebase Console (RECOMMANDÉE)</h3>
+                <ol class="list-decimal list-inside space-y-2">
+                    <li>Ouvrez Firebase Console : <a href="https://console.firebase.google.com" target="_blank"
+                            class="text-blue-300 underline">console.firebase.google.com</a></li>
+                    <li>Projet : <strong>tkouk-bc82a</strong></li>
+                    <li>Menu : <strong>Realtime Database</strong> → Onglet <strong>Données</strong></li>
+                    <li>Cliquez sur le <strong>+</strong> à côté de la racine</li>
+                    <li>Nom : <code class="bg-black/30 px-2 py-1 rounded">products</code></li>
+                    <li>Valeur : Copiez le JSON ci-dessous ⬇️</li>
+                    <li>Cliquez <strong>Ajouter</strong></li>
+                </ol>
+            </div>
+
+            <div class="space-y-2">
+                <h3 class="font-bold">📋 JSON à copier :</h3>
+                <div class="relative">
+                    <textarea id="jsonData" readonly
+                        class="w-full h-64 bg-black/50 border border-white/20 rounded-xl p-4 text-xs font-mono overflow-auto"></textarea>
+                    <button onclick="copyJSON()"
+                        class="absolute top-2 right-2 px-3 py-1 bg-green-500 hover:bg-green-600 rounded text-xs font-semibold text-black">
+                        <i class="fa-solid fa-copy mr-1"></i> Copier
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center space-y-3">
+            <button onclick="window.location.href='index.html'"
+                class="px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl font-semibold">
+                Voir le site après avoir ajouté les données
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const packsData = {
+            "pack1": {
+                "name": "Pack Premium 1",
+                "brand": "Pack Premium",
+                "category": "pack",
+                "price": 249,
+                "image": "./images/pack1.jpg",
+                "createdAt": Date.now(),
+                "updatedAt": Date.now()
+            },
+            "pack2": {
+                "name": "Pack Premium 2",
+                "brand": "Pack Premium",
+                "category": "pack",
+                "price": 249,
+                "image": "./images/pack2.jpg",
+                "createdAt": Date.now(),
+                "updatedAt": Date.now()
+            },
+            "pack3": {
+                "name": "Pack Premium 3",
+                "brand": "Pack Premium",
+                "category": "pack",
+                "price": 249,
+                "image": "./images/pack3.jpg",
+                "createdAt": Date.now(),
+                "updatedAt": Date.now()
+            },
+            "pack4": {
+                "name": "Pack Premium 4",
+                "brand": "Pack Premium",
+                "category": "pack",
+                "price": 249,
+                "image": "./images/pack4.jpg",
+                "createdAt": Date.now(),
+                "updatedAt": Date.now()
+            },
+            "pack5": {
+                "name": "Pack Premium 5",
+                "brand": "Pack Premium",
+                "category": "pack",
+                "price": 249,
+                "image": "./images/pack5.jpg",
+                "createdAt": Date.now(),
+                "updatedAt": Date.now()
+            },
+            "pack6": {
+                "name": "Pack Premium 6",
+                "brand": "Pack Premium",
+                "category": "pack",
+                "price": 249,
+                "image": "./images/pack6.jpg",
+                "createdAt": Date.now(),
+                "updatedAt": Date.now()
+            },
+            "pack7": {
+                "name": "Pack Premium 7",
+                "brand": "Pack Premium",
+                "category": "pack",
+                "price": 249,
+                "image": "./images/pack7.jpg",
+                "createdAt": Date.now(),
+                "updatedAt": Date.now()
+            },
+            "pack8": {
+                "name": "Pack Premium 8",
+                "brand": "Pack Premium",
+                "category": "pack",
+                "price": 249,
+                "image": "./images/pack8.jpg",
+                "createdAt": Date.now(),
+                "updatedAt": Date.now()
+            }
+        };
+
+        // Afficher le JSON
+        document.getElementById('jsonData').value = JSON.stringify(packsData, null, 2);
+
+        function copyJSON() {
+            const textarea = document.getElementById('jsonData');
+            textarea.select();
+            document.execCommand('copy');
+            alert('✅ JSON copié ! Collez-le dans Firebase Console.');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réinitialiser Database - ZAINE PARFUM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 900: '#0d1b40', 950: '#0a1430' },
+                        accent: '#e4b58b',
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+
+<body class="min-h-screen bg-primary-900 text-white p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">🔄 Réinitialisation de la Database</h1>
+        <p class="text-slate-300 mb-4">Cette page va <strong>SUPPRIMER tous les produits</strong> et insérer uniquement
+            les 13 produits avec images ZAINE correctement nommées</p>
+
+        <div id="status" class="bg-primary-950 border border-white/10 rounded-xl p-6 mb-4">
+            <p class="text-yellow-400">⏳ En attente...</p>
+        </div>
+
+        <button id="startBtn"
+            class="bg-accent text-primary-900 px-6 py-3 rounded-xl font-semibold hover:bg-white transition mb-4">
+            🚀 Démarrer la Réinitialisation
+        </button>
+
+        <div id="log" class="bg-black/30 rounded-xl p-4 font-mono text-xs space-y-1 max-h-96 overflow-auto"></div>
+    </div>
+
+    <script type="module">
+        import { database } from './firebase-config.js';
+        import { ref, set, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        const statusDiv = document.getElementById('status');
+        const logDiv = document.getElementById('log');
+        const startBtn = document.getElementById('startBtn');
+
+        function log(message, type = 'info') {
+            const p = document.createElement('p');
+            p.className = type === 'success' ? 'text-green-400' : type === 'error' ? 'text-red-400' : type === 'warning' ? 'text-yellow-400' : 'text-slate-300';
+            p.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logDiv.appendChild(p);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // UNIQUEMENT les 13 produits avec images ZAINE correctement nommées
+        const validProducts = {
+            // Parfums Féminins avec images ZAINE
+            'product_001': {
+                name: 'Coco Mademoiselle',
+                brand: 'Inspiration',
+                category: 'femme',
+                price: 89.9,
+                image: 'images/coco_mademoiselle.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+            'product_002': {
+                name: 'Evidence',
+                brand: 'Inspiration',
+                category: 'femme',
+                price: 59.9,
+                image: 'images/evidence.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+            'product_003': {
+                name: 'Good Girl',
+                brand: 'Inspiration',
+                category: 'femme',
+                price: 82.0,
+                image: 'images/good_girl.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+            'product_004': {
+                name: 'Libre',
+                brand: 'Inspiration',
+                category: 'femme',
+                price: 86.0,
+                image: 'images/libre.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+            'product_005': {
+                name: 'Burberry Her',
+                brand: 'Inspiration',
+                category: 'femme',
+                price: 75.0,
+                image: 'images/burberry_her.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+            'product_006': {
+                name: 'Kayali Coco Vanilla 28',
+                brand: 'Inspiration',
+                category: 'femme',
+                price: 88.0,
+                image: 'images/kayali_coco_vanilla.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+
+            // Parfums Masculins avec images ZAINE
+            'product_007': {
+                name: 'Bleu de Chanel',
+                brand: 'Inspiration',
+                category: 'homme',
+                price: 95.0,
+                image: 'images/bleu_de_chanel.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+            'product_008': {
+                name: 'Invictus',
+                brand: 'Inspiration',
+                category: 'homme',
+                price: 79.0,
+                image: 'images/invictus.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+            'product_009': {
+                name: 'Acqua di Giò',
+                brand: 'Inspiration',
+                category: 'homme',
+                price: 80.0,
+                image: 'images/acqua_di_gio.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+            'product_010': {
+                name: 'Eros Versace',
+                brand: 'Inspiration',
+                category: 'homme',
+                price: 85.0,
+                image: 'images/eros_versace.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+            'product_011': {
+                name: 'Imagination',
+                brand: 'Inspiration',
+                category: 'homme',
+                price: 115.0,
+                image: 'images/imagination.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+            'product_012': {
+                name: "Black XS L'Excès",
+                brand: 'Inspiration',
+                category: 'homme',
+                price: 76.0,
+                image: 'images/black_xs_exces.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            },
+            'product_013': {
+                name: 'Azzaro Wanted',
+                brand: 'Inspiration',
+                category: 'homme',
+                price: 78.0,
+                image: 'images/azzaro_wanted.jpg',
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            }
+        };
+
+        async function resetDatabase() {
+            try {
+                statusDiv.innerHTML = '<p class="text-yellow-400">🔄 Réinitialisation en cours...</p>';
+                log('🚀 Démarrage de la réinitialisation...', 'info');
+
+                // 1. Supprimer tous les produits existants
+                log('🗑️ Suppression de tous les anciens produits...', 'warning');
+                const productsRef = ref(database, 'products');
+                await remove(productsRef);
+                log('✅ Tous les anciens produits supprimés', 'success');
+
+                // 2. Insérer les 13 nouveaux produits valides
+                log('', 'info');
+                log(`📦 Insertion de ${Object.keys(validProducts).length} produits avec images ZAINE correctes...`, 'info');
+
+                await set(productsRef, validProducts);
+
+                // Log chaque produit
+                Object.values(validProducts).forEach((product, i) => {
+                    log(`✅ ${i + 1}. ${product.name} → ${product.image}`, 'success');
+                });
+
+                log('', 'info');
+                log('🎉 Réinitialisation terminée avec succès!', 'success');
+                log(`✅ ${Object.keys(validProducts).length} produits avec images correctement nommées`, 'success');
+                statusDiv.innerHTML = '<p class="text-green-400">✅ Base de données réinitialisée avec succès!</p>';
+
+            } catch (error) {
+                log(`❌ Erreur: ${error.message}`, 'error');
+                statusDiv.innerHTML = `<p class="text-red-400">❌ Erreur: ${error.message}</p>`;
+            }
+        }
+
+        startBtn.addEventListener('click', () => {
+            if (confirm('⚠️ ATTENTION: Cette action va SUPPRIMER tous les produits existants et les remplacer par 13 produits avec images correctes. Continuer?')) {
+                startBtn.disabled = true;
+                startBtn.textContent = '⏳ En cours...';
+                resetDatabase();
+            }
+        });
+    </script>
+</body>
+
+</html>

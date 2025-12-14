@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Initialisation des Packs - ZAINE PARFUM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+
+<body
+    class="min-h-screen bg-gradient-to-br from-primary-900 via-primary-800 to-primary-950 flex items-center justify-center p-4 text-white">
+
+    <div class="max-w-2xl w-full bg-primary-950/80 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-8">
+        <div class="text-center mb-8">
+            <div
+                class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 border border-accent/20 mb-4">
+                <i class="fa-solid fa-database text-accent text-2xl"></i>
+            </div>
+            <h1 class="text-2xl font-semibold tracking-wide mb-2">Initialisation des Packs</h1>
+            <p class="text-sm text-slate-400">Script pour créer les 8 packs premium dans Firebase</p>
+        </div>
+
+        <div id="status" class="mb-6 p-4 rounded-xl bg-primary-900/50 border border-white/10">
+            <p class="text-sm text-slate-300">Prêt à initialiser la base de données</p>
+        </div>
+
+        <div id="progress" class="mb-6">
+            <div class="flex items-center justify-between text-sm mb-2">
+                <span>Progression</span>
+                <span id="progressText">0/8</span>
+            </div>
+            <div class="w-full bg-primary-900 rounded-full h-2">
+                <div id="progressBar" class="bg-accent h-2 rounded-full transition-all duration-300" style="width: 0%">
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-3 mb-6">
+            <button id="initButton"
+                class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-accent text-primary-900 px-6 py-3 text-sm font-medium tracking-wide hover:bg-white transition">
+                <i class="fa-solid fa-rocket"></i>
+                <span>Initialiser les 8 Packs</span>
+            </button>
+
+            <button id="clearButton"
+                class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-red-500/20 border border-red-500/30 text-red-300 px-6 py-3 text-sm font-medium tracking-wide hover:bg-red-500/30 transition">
+                <i class="fa-solid fa-trash"></i>
+                <span>Supprimer tous les produits</span>
+            </button>
+
+            <a href="admin.html"
+                class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary-900 border border-white/10 text-slate-300 px-6 py-3 text-sm font-medium tracking-wide hover:bg-white/10 transition">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Retour à l'admin</span>
+            </a>
+        </div>
+
+        <div class="text-xs text-slate-500 text-center">
+            <p>⚠️ Cet outil supprime les anciens produits et crée 8 nouveaux packs à 249 DH</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { database } from './firebase-config.js';
+        import { ref, set, remove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        const initButton = document.getElementById('initButton');
+        const clearButton = document.getElementById('clearButton');
+        const status = document.getElementById('status');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+
+        // 8 packs avec les images correspondantes
+        const packs = [
+            { id: 'pack1', name: 'Pack Premium 1', image: './images/pack1.jpg' },
+            { id: 'pack2', name: 'Pack Premium 2', image: './images/pack2.jpg' },
+            { id: 'pack3', name: 'Pack Premium 3', image: './images/pack3.jpg' },
+            { id: 'pack4', name: 'Pack Premium 4', image: './images/pack4.jpg' },
+            { id: 'pack5', name: 'Pack Premium 5', image: './images/pack5.jpg' },
+            { id: 'pack6', name: 'Pack Premium 6', image: './images/pack6.jpg' },
+            { id: 'pack7', name: 'Pack Premium 7', image: './images/pack7.jpg' },
+            { id: 'pack8', name: 'Pack Premium 8', image: './images/pack8.jpg' }
+        ];
+
+        function updateStatus(message, type = 'info') {
+            const colors = {
+                info: 'text-slate-300',
+                success: 'text-green-400',
+                error: 'text-red-400',
+                warning: 'text-yellow-400'
+            };
+            status.innerHTML = `<p class="text-sm ${colors[type]}">${message}</p>`;
+        }
+
+        function updateProgress(current, total) {
+            const percent = (current / total) * 100;
+            progressBar.style.width = `${percent}%`;
+            progressText.textContent = `${current}/${total}`;
+        }
+
+        // Supprimer tous les produits
+        clearButton.addEventListener('click', async () => {
+            if (!confirm('⚠️ Êtes-vous sûr de vouloir supprimer TOUS les produits ?')) return;
+
+            try {
+                clearButton.disabled = true;
+                updateStatus('Suppression de tous les produits...', 'warning');
+
+                const productsRef = ref(database, 'products');
+                await remove(productsRef);
+
+                updateStatus('✅ Tous les produits ont été supprimés', 'success');
+                updateProgress(0, 8);
+            } catch (error) {
+                console.error('Error:', error);
+                updateStatus(`❌ Erreur: ${error.message}`, 'error');
+            } finally {
+                clearButton.disabled = false;
+            }
+        });
+
+        // Initialiser les packs
+        initButton.addEventListener('click', async () => {
+            if (!confirm('Initialiser les 8 packs premium ? Cela supprimera les anciens produits.')) return;
+
+            try {
+                initButton.disabled = true;
+
+                // 1. Supprimer les anciens produits
+                updateStatus('📦 Suppression des anciens produits...', 'warning');
+                console.log('Suppression des produits...');
+                const productsRef = ref(database, 'products');
+                await remove(productsRef);
+                console.log('Produits supprimés avec succès');
+                updateProgress(0, 8);
+
+                // Pause après suppression
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // 2. Créer les 8 packs
+                updateStatus('🚀 Création des packs premium...', 'info');
+                console.log('Début de la création des packs...');
+
+                for (let i = 0; i < packs.length; i++) {
+                    const pack = packs[i];
+                    console.log(`Création du pack ${i + 1}:`, pack);
+
+                    try {
+                        const packRef = ref(database, `products/${pack.id}`);
+
+                        const packData = {
+                            name: pack.name,
+                            brand: 'Pack Premium',
+                            category: 'pack',
+                            price: 249,
+                            image: pack.image,
+                            createdAt: Date.now(),
+                            updatedAt: Date.now()
+                        };
+
+                        console.log(`Insertion du pack ${pack.id}:`, packData);
+                        await set(packRef, packData);
+                        console.log(`Pack ${pack.id} créé avec succès`);
+
+                        updateProgress(i + 1, 8);
+                        updateStatus(`✨ Pack ${i + 1}/8 créé: ${pack.name}`, 'info');
+
+                        // Petite pause pour voir la progression
+                        await new Promise(resolve => setTimeout(resolve, 300));
+
+                    } catch (packError) {
+                        console.error(`Erreur lors de la création du pack ${pack.id}:`, packError);
+                        updateStatus(`❌ Erreur pack ${i + 1}: ${packError.message}`, 'error');
+                        throw packError; // Re-throw pour arrêter le processus
+                    }
+                }
+
+                console.log('Tous les packs ont été créés avec succès');
+                updateStatus('🎉 Initialisation terminée ! 8 packs créés avec succès.', 'success');
+
+                setTimeout(() => {
+                    if (confirm('Aller à la page admin ?')) {
+                        window.location.href = 'admin.html';
+                    }
+                }, 1500);
+
+            } catch (error) {
+                console.error('Erreur globale:', error);
+                console.error('Stack trace:', error.stack);
+                updateStatus(`❌ Erreur: ${error.message || error.toString()}`, 'error');
+            } finally {
+                initButton.disabled = false;
+            }
+        });
+    </script>
+
+    <style>
+        tailwind.config= {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            800: '#122758',
+                                900: '#0d1b40',
+                                950: '#0a1430',
+                        }
+
+                        ,
+                        accent: '#e4b58b',
+                    }
+
+                    ,
+                }
+
+                ,
+            }
+
+            ,
+        }
+
+        ;
+    </style>
+</body>
+
+</html>

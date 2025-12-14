@@ -1,353 +1,379 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZAINE PARFUM - Boutique</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: {
-                50: '#f4f7fb',
-                100: '#e9eff7',
-                200: '#c8d7ea',
-                300: '#a7bfdd',
-                400: '#668fc3',
-                500: '#2450a9',
-                600: '#204898',
-                700: '#193778',
-                800: '#122758',
-                900: '#0d1b40',
-              },
-              accent: '#e4b58b',
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZAINE PARFUM - Packs Premium</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f4f7fb',
+              900: '#0d1b40',
+              950: '#0a1430',
             },
-            fontFamily: {
-              sans: ['system-ui', 'Segoe UI', 'sans-serif'],
-            },
+            accent: '#e4b58b',
+            gold: '#d4af37',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'serif'],
+          },
+          backgroundImage: {
+            'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
           },
         },
-      };
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  </head>
-  <body class="min-h-screen bg-primary-900 text-slate-50 flex flex-col">
-    <!-- HEADER -->
-    <header class="border-b border-white/10 bg-primary-900/90 backdrop-blur sticky top-0 z-40">
-      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <img src="./image.png" alt="Logo Zaine Parfum" class="h-12 w-auto object-contain" />
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="./animations.css" />
+  <style>
+    .gradient-bg {
+      background: linear-gradient(135deg, #0a1430 0%, #0d1b40 50%, #1a2850 100%);
+    }
+
+    .hero-glow {
+      box-shadow: 0 0 100px rgba(228, 181, 139, 0.3), 0 0 200px rgba(228, 181, 139, 0.1);
+    }
+
+    .product-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .product-card:hover {
+      transform: translateY(-12px) scale(1.02);
+    }
+
+    .glass-morphism {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #e4b58b 0%, #ffd700 50%, #e4b58b 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen gradient-bg text-slate-50 flex flex-col antialiased">
+
+  <!-- FLOATING PARTICLES BACKGROUND -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute top-20 left-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+    <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-gold/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="relative z-50 glass-morphism sticky top-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo -->
+        <div class="flex items-center gap-4 group cursor-pointer">
+          <div class="relative">
+            <img src="./images/image.png" alt="Logo ZAINE"
+              class="h-14 w-auto object-contain group-hover:scale-110 transition-transform duration-300" />
+            <div class="absolute inset-0 bg-accent/20 blur-xl rounded-full group-hover:bg-accent/30 transition"></div>
+          </div>
           <div>
-            <h1 class="text-xl tracking-[0.35em] font-semibold leading-none">ZAINE</h1>
-            <p class="text-xs uppercase tracking-[0.3em] text-slate-300 mt-1">Parfum · Femme &amp; Homme</p>
+            <h1 class="text-2xl font-display font-bold tracking-wider text-gradient">ZAINE</h1>
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-400">L'Art du Parfum</p>
           </div>
         </div>
-        <nav class="hidden md:flex items-center gap-8 text-sm text-slate-200">
-          <a href="#collection" class="hover:text-white">Collection</a>
-          <a href="#about" class="hover:text-white">À propos</a>
-          <a href="#contact" class="hover:text-white">Contact</a>
+
+        <!-- Navigation -->
+        <nav class="hidden lg:flex items-center gap-8 text-sm font-medium">
+          <a href="#collection" class="text-slate-300 hover:text-accent transition-colors relative group">
+            <span>Collection</span>
+            <span
+              class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
+          </a>
+          <a href="#featured" class="text-slate-300 hover:text-accent transition-colors relative group">
+            <span>Nouveautés</span>
+            <span
+              class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
+          </a>
+          <a href="#about" class="text-slate-300 hover:text-accent transition-colors relative group">
+            <span>À propos</span>
+            <span
+              class="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
+          </a>
         </nav>
-        <button id="cartButton" class="relative inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm hover:bg-white hover:text-primary-900 transition">
-          <i class="fa-solid fa-bag-shopping"></i>
-          <span>Panier</span>
-          <span id="cartCount" class="ml-1 inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-accent text-xs text-primary-900 px-1">0</span>
-        </button>
-      </div>
-    </header>
 
-    <!-- HERO -->
-    <main class="flex-1">
-      <section class="relative overflow-hidden bg-gradient-to-b from-primary-900 via-primary-900 to-primary-950">
-        <div class="max-w-6xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-[1.1fr,0.9fr] gap-12 items-center">
-          <div>
-            <p class="text-xs uppercase tracking-[0.4em] text-slate-400 mb-4">Nouvelle Maison · Zaine Parfum</p>
-            <h2 class="text-4xl md:text-5xl font-semibold tracking-wide mb-4">L'art du parfum<br /><span class="text-accent">réinventé</span>.</h2>
-            <p class="text-sm md:text-base text-slate-200 leading-relaxed mb-8 max-w-xl">
-              Une sélection raffinée de fragrances iconiques pour elle &amp; pour lui. Inspirez-vous des plus grandes maisons, avec
-              une expérience de découverte fluide et élégante.
+        <!-- Actions -->
+        <div class="flex items-center gap-3">
+          <a href="login.html"
+            class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full glass-morphism hover:bg-white/10 transition-all text-sm">
+            <i class="fa-solid fa-user-shield text-accent"></i>
+            <span>Admin</span>
+          </a>
+
+          <button id="cartButton"
+            class="relative group px-5 py-2.5 rounded-full bg-gradient-to-r from-accent to-gold text-primary-950 font-semibold hover:shadow-lg hover:shadow-accent/50 transition-all duration-300">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-shopping-bag"></i>
+              <span class="hidden sm:inline">Panier</span>
+              <span id="cartCount"
+                class="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1 rounded-full bg-primary-950 text-accent text-xs font-bold">0</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="relative z-10 flex-1">
+
+    <!-- HERO SECTION -->
+    <section class="relative overflow-hidden py-20 lg:py-32">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+          <!-- Left Content -->
+          <div class="space-y-8 animate-slide-up">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-morphism">
+              <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+              <span class="text-xs uppercase tracking-widest text-slate-300">Nouvelle Collection 2025</span>
+            </div>
+
+            <h2 class="text-5xl lg:text-7xl font-display font-bold leading-tight">
+              Packs Premium
+              <span class="block text-gradient mt-2">à 249 DH</span>
+            </h2>
+
+            <p class="text-lg text-slate-300 leading-relaxed max-w-xl">
+              Découvrez nos packs exclusifs de fragrances premium.
+              Qualité exceptionnelle, prix unique : 249 DH le pack.
             </p>
-            <div class="flex flex-wrap items-center gap-4">
-              <a href="#collection" class="inline-flex items-center gap-2 rounded-full bg-accent text-primary-900 px-6 py-2.5 text-sm font-medium tracking-wide hover:bg-white transition">
-                Découvrir la collection
-                <i class="fa-solid fa-arrow-right"></i>
+
+            <div class="flex flex-wrap gap-4">
+              <a href="#collection"
+                class="group px-8 py-4 rounded-full bg-gradient-to-r from-accent to-gold text-primary-950 font-bold text-sm uppercase tracking-wider hover:shadow-2xl hover:shadow-accent/50 transition-all duration-300 inline-flex items-center gap-3">
+                <span>Explorer la collection</span>
+                <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
               </a>
-              <span class="text-xs text-slate-300">Livraison rapide · Paiement sécurisé · Qualité premium</span>
+
+              <button
+                class="px-8 py-4 rounded-full glass-morphism hover:bg-white/10 font-medium text-sm uppercase tracking-wider transition-all duration-300 inline-flex items-center gap-3">
+                <i class="fa-solid fa-play text-accent"></i>
+                <span>Découvrir la marque</span>
+              </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="flex flex-wrap gap-8 pt-8 border-t border-white/10">
+              <div>
+                <div class="text-3xl font-bold text-gradient">8</div>
+                <div class="text-sm text-slate-400 uppercase tracking-wider mt-1">Packs</div>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-gradient">100%</div>
+                <div class="text-sm text-slate-400 uppercase tracking-wider mt-1">Qualité</div>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-gradient">24/7</div>
+                <div class="text-sm text-slate-400 uppercase tracking-wider mt-1">Service</div>
+              </div>
             </div>
           </div>
 
-          <div class="relative flex justify-center md:justify-end">
-            <div class="w-56 h-80 md:w-64 md:h-96 rounded-[2.5rem] border border-white/10 bg-gradient-to-b from-white/10 via-white/5 to-primary-950 shadow-[0_40px_120px_rgba(0,0,0,0.75)] flex items-center justify-center overflow-hidden">
-              <iframe
-                title="Chanel Coco Noir Parfum 3D"
-                src="https://sketchfab.com/models/ebd1d04d7a7c4bd2aa4027094207d853/embed?autostart=1&camera=0&ui_theme=dark&ui_controls=0&ui_infos=0&ui_watermark=0&ui_fullscreen=0&ui_help=0"
-                class="w-full h-full"
-                frameborder="0"
-                allow="autoplay; fullscreen; vr"
-                mozallowfullscreen="true"
-                webkitallowfullscreen="true"
-              ></iframe>
-              <div class="absolute inset-0 bg-gradient-to-b from-primary-900/10 via-primary-900/0 to-primary-950/70 pointer-events-none"></div>
+          <!-- Right Visual -->
+          <div class="relative animate-scale-in">
+            <div class="relative hero-glow">
+              <!-- Main Bottle Display -->
+              <div class="aspect-square rounded-3xl glass-morphism overflow-hidden relative">
+                <iframe title="Perfume 3D"
+                  src="https://sketchfab.com/models/ebd1d04d7a7c4bd2aa4027094207d853/embed?autostart=1&camera=0&ui_theme=dark&ui_controls=0&ui_infos=0&ui_watermark=0&ui_help=0&ui_settings=0&ui_inspector=0&ui_stop=0&ui_hint=0&ui_ar=0&ui_vr=0&transparent=1&annotations_visible=0"
+                  class="w-full h-full" frameborder="0" allow="autoplay; fullscreen" mozallowfullscreen="true"
+                  webkitallowfullscreen="true"></iframe>
+
+
+              </div>
             </div>
+
+
+
           </div>
         </div>
-      </section>
+    </section>
 
-      <!-- FILTRES + COLLECTION -->
-      <section id="collection" class="bg-primary-950 border-t border-white/5">
-        <div class="max-w-6xl mx-auto px-4 py-10 md:py-14">
-          <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-            <div>
-              <h3 class="text-2xl md:text-3xl font-semibold tracking-wide mb-2">Notre collection</h3>
-              <p class="text-sm text-slate-300 max-w-xl">
-                Parcourez nos parfums féminins, masculins et mixtes. Utilisez la barre de recherche ou filtrez par univers.
-              </p>
+    <!-- COLLECTION SECTION -->
+    <section id="collection" class="py-20 lg:py-32 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Section Header -->
+        <div class="text-center mb-16 space-y-4">
+          <h3 class="text-4xl lg:text-5xl font-display font-bold">
+            Nos <span class="text-gradient">Packs Premium</span>
+          </h3>
+          <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+            8 packs exclusifs à 249 DH - Idéal pour offrir ou se faire plaisir
+          </p>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+          <div class="relative flex-1 max-w-md">
+            <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input id="searchInput" type="text" placeholder="Rechercher un pack..."
+              class="w-full pl-11 pr-4 py-3 rounded-full glass-morphism focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm placeholder:text-slate-500 transition">
+          </div>
+
+          <select id="categoryFilter"
+            class="px-6 py-3 rounded-full glass-morphism focus:outline-none focus:ring-2 focus:ring-accent/50 text-sm cursor-pointer transition">
+            <option value="all">Tous les packs</option>
+            <option value="pack">Packs Premium</option>
+          </select>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <!-- Products will be inserted here by main.js -->
+        </div>
+
+        <!-- No Results -->
+        <div id="noResults" class="hidden text-center py-20">
+          <i class="fa-solid fa-search text-6xl text-slate-700 mb-4"></i>
+          <p class="text-xl text-slate-400">Aucun pack trouvé</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="py-20 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-3 gap-8">
+
+          <div
+            class="text-center space-y-4 p-8 rounded-3xl glass-morphism hover:bg-white/10 transition-all duration-300 group">
+            <div
+              class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-accent/20 to-gold/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-truck-fast text-3xl text-accent"></i>
             </div>
-            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-              <div class="relative flex-1 min-w-[200px]">
-                <i class="fa-solid fa-magnifying-glass text-slate-400 absolute left-3 top-2.5 text-xs"></i>
-                <input
-                  id="searchInput"
-                  type="text"
-                  placeholder="Rechercher un parfum..."
-                  class="w-full rounded-full bg-primary-900 border border-white/10 pl-8 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent/70 focus:border-accent/70 placeholder:text-slate-500"
-                />
-              </div>
-              <select
-                id="categoryFilter"
-                class="rounded-full bg-primary-900 border border-white/10 px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-accent/70 focus:border-accent/70 min-w-[140px]"
-              >
-                <option value="all">Tous les univers</option>
-                <option value="femme">Féminin</option>
-                <option value="homme">Masculin</option>
-                <option value="mixte">Mixte</option>
-              </select>
-            </div>
+            <h4 class="text-xl font-semibold">Livraison Rapide</h4>
+            <p class="text-sm text-slate-400">Livraison gratuite partout au Maroc</p>
           </div>
 
           <div
-            id="productsGrid"
-            class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-          ></div>
+            class="text-center space-y-4 p-8 rounded-3xl glass-morphism hover:bg-white/10 transition-all duration-300 group">
+            <div
+              class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-accent/20 to-gold/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-shield-halved text-3xl text-accent"></i>
+            </div>
+            <h4 class="text-xl font-semibold">Qualité Garantie</h4>
+            <p class="text-sm text-slate-400">100% authentique et premium</p>
+          </div>
 
-          <p id="noResults" class="hidden text-center text-sm text-slate-400 mt-10">
-            Aucun parfum ne correspond à votre recherche.
+          <div
+            class="text-center space-y-4 p-8 rounded-3xl glass-morphism hover:bg-white/10 transition-all duration-300 group">
+            <div
+              class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-accent/20 to-gold/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-headset text-3xl text-accent"></i>
+            </div>
+            <h4 class="text-xl font-semibold">Support 24/7</h4>
+            <p class="text-sm text-slate-400">Service client toujours disponible</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="relative z-10 border-t border-white/10 mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+
+        <div>
+          <h4 class="text-xl font-display font-bold text-gradient mb-4">ZAINE PARFUM</h4>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            L'art du parfum réinventé. Une expérience olfactive exceptionnelle.
           </p>
         </div>
-      </section>
 
-      <!-- A PROPOS -->
-      <section id="about" class="bg-primary-900 border-t border-white/5">
-        <div class="max-w-6xl mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <h3 class="text-2xl md:text-3xl font-semibold mb-4 tracking-wide">Une expérience olfactive contemporaine</h3>
-            <p class="text-sm text-slate-200 leading-relaxed mb-4">
-              Zaine Parfum s'inspire des plus grandes maisons de parfumerie pour proposer une collection sélective, pensée pour
-              sublimer chaque personnalité. Notre mission : rendre l'univers du parfum d'exception accessible avec une expérience
-              simple, claire et élégante.
-            </p>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              Nous travaillons avec des partenaires de confiance et sélectionnons soigneusement chaque fragrance, du sillage le
-              plus subtil aux signatures les plus affirmées.
-            </p>
-          </div>
-          <div class="grid grid-cols-2 gap-4 text-sm">
-            <div class="rounded-2xl border border-white/10 bg-primary-950/60 px-4 py-5">
-              <p class="text-xs text-slate-400 mb-2 uppercase tracking-[0.2em]">Pour elle</p>
-              <p class="font-medium mb-1">Fragrances iconiques</p>
-              <p class="text-xs text-slate-300">Sélection de signatures féminines intemporelles.</p>
-            </div>
-            <div class="rounded-2xl border border-white/10 bg-primary-950/60 px-4 py-5">
-              <p class="text-xs text-slate-400 mb-2 uppercase tracking-[0.2em]">Pour lui</p>
-              <p class="font-medium mb-1">Caractère &amp; élégance</p>
-              <p class="text-xs text-slate-300">Parfums masculins au sillage affirmé.</p>
-            </div>
-            <div class="rounded-2xl border border-white/10 bg-primary-950/60 px-4 py-5 col-span-2">
-              <p class="text-xs text-slate-400 mb-2 uppercase tracking-[0.2em]">Service</p>
-              <p class="font-medium mb-1">Conseil &amp; accompagnement</p>
-              <p class="text-xs text-slate-300">Accompagnement personnalisé pour choisir votre parfum idéal.</p>
-            </div>
-          </div>
+        <div>
+          <h5 class="font-semibold mb-4">Navigation</h5>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li><a href="#collection" class="hover:text-accent transition">Collection</a></li>
+            <li><a href="#about" class="hover:text-accent transition">À propos</a></li>
+            <li><a href="login.html" class="hover:text-accent transition">Espace Admin</a></li>
+          </ul>
         </div>
-      </section>
 
-      <!-- CONTACT / FOOTER -->
-      <section id="contact" class="bg-primary-950 border-t border-white/5">
-        <div class="max-w-6xl mx-auto px-4 py-10 md:py-12 grid md:grid-cols-[1.1fr,0.9fr] gap-10">
-          <div>
-            <h3 class="text-xl md:text-2xl font-semibold mb-3 tracking-wide">Restons en contact</h3>
-            <p class="text-sm text-slate-300 mb-4">
-              Une question sur un parfum, une demande de devis ou une commande spéciale ? Laissez-nous un message, nous vous
-              répondrons rapidement.
-            </p>
-            <p class="text-xs text-slate-400">Formulaire non connecté à un envoi réel pour l'instant (démonstration front-end).</p>
-          </div>
-          <form class="space-y-3">
-            <div class="grid sm:grid-cols-2 gap-3 text-sm">
-              <input type="text" placeholder="Nom" class="rounded-xl bg-primary-900 border border-white/10 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent/70" />
-              <input type="email" placeholder="Email" class="rounded-xl bg-primary-900 border border-white/10 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent/70" />
-            </div>
-            <textarea rows="3" placeholder="Votre message" class="w-full rounded-xl bg-primary-900 border border-white/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent/70"></textarea>
-            <button type="button" class="inline-flex items-center gap-2 rounded-full bg-accent text-primary-900 px-5 py-2 text-sm font-medium tracking-wide hover:bg-white transition">
-              Envoyer
-              <i class="fa-solid fa-paper-plane"></i>
-            </button>
-          </form>
+        <div>
+          <h5 class="font-semibold mb-4">Contact</h5>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2">
+              <i class="fa-brands fa-whatsapp text-accent"></i>
+              <span>+212 6 63 48 65 72</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fa-solid fa-envelope text-accent"></i>
+              <span>contact@zaineparfum.ma</span>
+            </li>
+          </ul>
         </div>
-        <footer class="border-t border-white/10 py-4 text-xs text-slate-500 text-center">
-          <p>&copy; <span id="year"></span> ZAINE PARFUM · Tous droits réservés.</p>
-        </footer>
-      </section>
-    </main>
 
-    <!-- MODAL PANIER -->
-    <div
-      id="cartModal"
-      class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-end md:justify-center opacity-0 pointer-events-none transition"
-    >
-      <div class="bg-primary-950 border border-white/10 w-full max-w-md h-full md:h-auto md:max-h-[80vh] md:rounded-3xl shadow-2xl flex flex-col">
-        <div class="flex items-center justify-between px-5 py-4 border-b border-white/10">
-          <h4 class="text-sm font-semibold tracking-wide">Votre panier</h4>
-          <button id="closeCart" class="text-slate-400 hover:text-white text-lg">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        <div id="cartItems" class="flex-1 overflow-y-auto px-5 py-4 space-y-4 text-sm"></div>
-        <div class="border-t border-white/10 px-5 py-4 text-sm">
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-slate-300">Total</span>
-            <span id="cartTotal" class="font-semibold">0,00 €</span>
-          </div>
-          <button id="checkoutButton" class="w-full inline-flex items-center justify-center gap-2 rounded-full bg-accent text-primary-900 px-5 py-2 text-sm font-medium tracking-wide hover:bg-white transition">
-            Valider la commande
-            <i class="fa-solid fa-lock"></i>
-          </button>
-          <p class="mt-2 text-[11px] text-slate-500 text-center">Démo : aucune transaction réelle n'est effectuée.</p>
-        </div>
+      </div>
+
+      <div class="border-t border-white/10 pt-8 text-center text-sm text-slate-500">
+        <p>&copy; <span id="year"></span> ZAINE PARFUM. Tous droits réservés.</p>
       </div>
     </div>
+  </footer>
 
-    <div
-      id="adminPanel"
-      class="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition z-50"
-    >
-      <div class="bg-primary-950 border border-white/10 w-full max-w-4xl max-h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden">
-        <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
-          <div>
-            <p class="text-[10px] uppercase tracking-[0.35em] text-slate-400 mb-1">Espace admin</p>
-            <h4 class="text-sm font-semibold tracking-wide">Gestion des parfums</h4>
-          </div>
-          <button id="adminClose" class="text-slate-400 hover:text-white text-lg">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        <div class="grid md:grid-cols-[1.3fr,0.9fr] gap-0 flex-1 overflow-hidden text-sm">
-          <div class="border-r border-white/10 flex flex-col">
-            <div class="px-6 py-3 border-b border-white/10 flex flex-col gap-2">
-              <div class="flex items-center justify-between gap-3">
-                <p class="text-xs text-slate-300">Liste des parfums</p>
-                <p class="text-[11px] text-slate-500">Codes clavier : 1 2 3 4 5 6</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <div class="relative flex-1">
-                  <i class="fa-solid fa-magnifying-glass text-slate-500 absolute left-3 top-2.5 text-[10px]"></i>
-                  <input
-                    id="adminSearch"
-                    type="text"
-                    placeholder="Rechercher dans l'admin..."
-                    class="w-full rounded-full bg-primary-900 border border-white/10 pl-7 pr-3 py-1.5 text-[11px] text-slate-200 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-accent/60"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="flex-1 overflow-auto">
-              <table class="w-full text-xs">
-                <thead class="bg-primary-900/80 border-b border-white/10 text-slate-300">
-                  <tr>
-                    <th class="text-left px-3 py-2 font-medium w-12">Img</th>
-                    <th class="text-left px-2 py-2 font-medium">Nom</th>
-                    <th class="text-left px-2 py-2 font-medium">Cat.</th>
-                    <th class="text-right px-3 py-2 font-medium">Prix</th>
-                    <th class="text-right px-3 py-2 font-medium">Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="adminList" class="divide-y divide-white/5"></tbody>
-              </table>
-            </div>
-          </div>
-          <div class="flex flex-col">
-            <div class="px-6 py-3 border-b border-white/10">
-              <p class="text-xs text-slate-300" id="adminFormTitle">Ajouter un parfum</p>
-            </div>
-            <form id="adminForm" class="flex-1 overflow-auto px-6 py-4 space-y-3">
-              <input type="hidden" id="adminId" />
-              <div class="space-y-1">
-                <label for="adminName" class="text-xs text-slate-300">Nom</label>
-                <input
-                  id="adminName"
-                  type="text"
-                  class="w-full rounded-xl bg-primary-900 border border-white/15 px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent/70"
-                  required
-                />
-              </div>
-              <div class="space-y-1">
-                <label for="adminCategory" class="text-xs text-slate-300">Catégorie</label>
-                <select
-                  id="adminCategory"
-                  class="w-full rounded-xl bg-primary-900 border border-white/15 px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent/70"
-                  required
-                >
-                  <option value="femme">Femme</option>
-                  <option value="homme">Homme</option>
-                  <option value="mixte">Mixte</option>
-                </select>
-              </div>
-              <div class="space-y-1">
-                <label for="adminPrice" class="text-xs text-slate-300">Prix (DH)</label>
-                <input
-                  id="adminPrice"
-                  type="number"
-                  step="0.01"
-                  class="w-full rounded-xl bg-primary-900 border border-white/15 px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-accent/70"
-                  required
-                />
-              </div>
-              <div class="space-y-1">
-                <label for="adminImage" class="text-xs text-slate-300">Image (fichier local)</label>
-                <input
-                  id="adminImage"
-                  type="file"
-                  accept="image/*"
-                  class="block w-full text-xs text-slate-300 file:mr-3 file:rounded-full file:border-0 file:bg-accent file:px-3 file:py-1.5 file:text-[11px] file:font-medium file:text-primary-900 hover:file:bg-white"
-                />
-              </div>
-              <div class="flex items-center justify-between pt-2">
-                <button
-                  type="submit"
-                  id="adminSubmit"
-                  class="inline-flex items-center gap-2 rounded-full bg-accent text-primary-900 px-4 py-1.5 text-xs font-medium tracking-[0.18em] uppercase hover:bg-white transition"
-                >
-                  Enregistrer
-                  <i class="fa-solid fa-floppy-disk text-[11px]"></i>
-                </button>
-                <button
-                  type="button"
-                  id="adminReset"
-                  class="text-[11px] text-slate-400 hover:text-slate-200 underline underline-offset-4"
-                >
-                  Nouveau parfum
-                </button>
-              </div>
-              <p class="text-[10px] text-slate-500 pt-2">
-                Modifications appliquées seulement côté navigateur (données non sauvegardées en base pour cette démo).
-              </p>
-            </form>
-          </div>
-        </div>
+  <!-- CART MODAL -->
+  <div id="cartModal"
+    class="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 z-[60]">
+    <div class="glass-morphism w-full max-w-lg max-h-[90vh] rounded-3xl shadow-2xl flex flex-col m-4 animate-scale-in">
+
+      <div class="flex items-center justify-between px-6 py-5 border-b border-white/10">
+        <h4 class="text-xl font-semibold font-display">Votre Panier</h4>
+        <button id="closeCart"
+          class="w-10 h-10 rounded-full glass-morphism hover:bg-white/20 transition flex items-center justify-center">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
       </div>
-    </div>
 
-    <script src="./main.js"></script>
-  </body>
+      <div id="cartItems" class="flex-1 overflow-auto px-6 py-4 space-y-4">
+        <p class="text-sm text-slate-400">Votre panier est vide.</p>
+      </div>
+
+      <div class="border-t border-white/10 px-6 py-5 space-y-4">
+        <div class="flex items-center justify-between text-lg font-semibold">
+          <span>Total</span>
+          <span id="cartTotal" class="text-gradient">0,00 DH</span>
+        </div>
+        <button id="checkoutButton"
+          class="w-full px-8 py-4 rounded-full bg-gradient-to-r from-accent to-gold text-primary-950 font-bold text-sm uppercase tracking-wider hover:shadow-2xl hover:shadow-accent/50 transition-all duration-300 disabled:opacity-50 disabled:hover:shadow-none">
+          Valider la commande
+          <i class="fa-solid fa-arrow-right ml-2"></i>
+        </button>
+        <p class="text-xs text-center text-slate-500">Paiement à la livraison · Livraison gratuite</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+
 </html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initialiser Database - ZAINE PARFUM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            900: '#0d1b40',
+                            950: '#0a1430',
+                        },
+                        accent: '#e4b58b',
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+
+<body class="min-h-screen bg-primary-900 text-white p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">Initialisation de la Database</h1>
+        <p class="text-slate-300 mb-4">Cette page va insérer tous les produits et images dans Firebase Realtime Database
+        </p>
+
+        <div id="status" class="bg-primary-950 border border-white/10 rounded-xl p-6 mb-4">
+            <p class="text-yellow-400">⏳ Initialisation en cours...</p>
+        </div>
+
+        <div id="log" class="bg-black/30 rounded-xl p-4 font-mono text-xs space-y-1 max-h-96 overflow-auto"></div>
+    </div>
+
+    <script type="module">
+        import { database } from './firebase-config.js';
+        import { ref, set, push } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        const statusDiv = document.getElementById('status');
+        const logDiv = document.getElementById('log');
+
+        function log(message, type = 'info') {
+            const p = document.createElement('p');
+            p.className = type === 'success' ? 'text-green-400' : type === 'error' ? 'text-red-400' : 'text-slate-300';
+            p.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logDiv.appendChild(p);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // Liste des produits avec leurs images
+        const products = [
+            { name: 'Coco Mademoiselle', brand: 'Inspiration', category: 'femme', price: 89.9, image: 'images/coco_mademoiselle.jpg' },
+            { name: 'La Vie est Belle', brand: 'Inspiration', category: 'femme', price: 84.5, image: 'images/imgi_70_280465-media_swatch.jpg' },
+            { name: 'Evidence', brand: 'Inspiration', category: 'femme', price: 59.9, image: 'images/evidence.jpg' },
+            { name: 'Good Girl', brand: 'Inspiration', category: 'femme', price: 82.0, image: 'images/good_girl.jpg' },
+            { name: 'Hypnotique Poison', brand: 'Inspiration', category: 'femme', price: 79.0, image: 'images/imgi_144_IMG-5216.jpg' },
+            { name: 'Scandal', brand: 'Inspiration', category: 'femme', price: 78.0, image: 'images/imgi_138_e939cecJEANP00000200_4.jpg' },
+            { name: 'Libre', brand: 'Inspiration', category: 'femme', price: 86.0, image: 'images/libre.jpg' },
+            { name: 'Burberry Her', brand: 'Inspiration', category: 'femme', price: 75.0, image: 'images/burberry_her.jpg' },
+            { name: `L'Impératrice`, brand: 'Inspiration', category: 'femme', price: 69.0, image: 'images/imgi_125_p245901-av-15-zoom.jpg' },
+            { name: 'Light Blue', brand: 'Inspiration', category: 'femme', price: 72.0, image: 'images/imgi_171_image_c27a2530-8323-4bc3-a44a-a4f7b6d959b0.jpg' },
+            { name: 'Escada Taj', brand: 'Inspiration', category: 'femme', price: 65.0, image: 'images/imgi_188_escada-taj-sunset-1646405894_1000x0 (1).jpg' },
+            { name: 'Kayali Coco Vanilla 28', brand: 'Inspiration', category: 'femme', price: 88.0, image: 'images/kayali_coco_vanilla.jpg' },
+            { name: 'Sauvage', brand: 'Inspiration', category: 'homme', price: 92.0, image: 'images/imgi_199_Sauvage_Dior_Sauvage_Eau_de_Parfum_60_ml_Dior_Sauvage.jpg' },
+            { name: 'Bleu de Chanel', brand: 'Inspiration', category: 'homme', price: 95.0, image: 'images/bleu_de_chanel.jpg' },
+            { name: 'Aventus Creed', brand: 'Inspiration', category: 'homme', price: 120.0, image: 'images/imgi_157_8e01c410-ccfa-40b7-b813-6c5f6c1137a9_75040bb1-1fe1-4c88-bf69-c74b64276ecc.jpg' },
+            { name: 'Invictus', brand: 'Inspiration', category: 'homme', price: 79.0, image: 'images/invictus.jpg' },
+            { name: `Acqua di Giò`, brand: 'Inspiration', category: 'homme', price: 80.0, image: 'images/acqua_di_gio.jpg' },
+            { name: 'Eros Versace', brand: 'Inspiration', category: 'homme', price: 85.0, image: 'images/eros_versace.jpg' },
+            { name: 'Stronger With You', brand: 'Inspiration', category: 'homme', price: 83.0, image: 'images/imgi_164_design-sans-titre-2024-03-15t154455.793.jpg' },
+            { name: 'Ultra Male', brand: 'Inspiration', category: 'homme', price: 82.0, image: 'images/imgi_115_ULTRA_MALE_L_Eau_De_Toilette_intense_JEAN_PAUL_GAULTIER_foryou.ma.jpg' },
+            { name: 'Lacoste Noir', brand: 'Inspiration', category: 'homme', price: 70.0, image: 'images/imgi_175_lacostenoir-man_0a9b301c-d4c3-4d7b-8cda-550bf86587b9.jpg' },
+            { name: 'Imagination', brand: 'Inspiration', category: 'homme', price: 115.0, image: 'images/imagination.jpg' },
+            { name: `Black XS L'Excès`, brand: 'Inspiration', category: 'homme', price: 76.0, image: 'images/black_xs_exces.jpg' },
+            { name: 'Azzaro Wanted', brand: 'Inspiration', category: 'homme', price: 78.0, image: 'images/azzaro_wanted.jpg' },
+        ];
+
+        async function initializeDatabase() {
+            try {
+                log('🚀 Démarrage de l\'initialisation...', 'info');
+
+                // Référence aux produits
+                const productsRef = ref(database, 'products');
+
+                log(`📦 ${products.length} produits à insérer`, 'info');
+
+                // Insérer chaque produit
+                for (let i = 0; i < products.length; i++) {
+                    const product = products[i];
+
+                    // Créer un nouveau produit avec push (génère un ID unique)
+                    const newProductRef = push(productsRef);
+
+                    await set(newProductRef, {
+                        ...product,
+                        createdAt: Date.now(),
+                        updatedAt: Date.now()
+                    });
+
+                    log(`✅ Ajouté: ${product.name} (${product.image})`, 'success');
+                }
+
+                log('', 'info');
+                log('🎉 Tous les produits ont été insérés avec succès!', 'success');
+                statusDiv.innerHTML = '<p class="text-green-400">✅ Initialisation terminée avec succès!</p>';
+
+            } catch (error) {
+                log(`❌ Erreur: ${error.message}`, 'error');
+                statusDiv.innerHTML = `<p class="text-red-400">❌ Erreur: ${error.message}</p>`;
+            }
+        }
+
+        // Démarrer l'initialisation
+        initializeDatabase();
+    </script>
+</body>
+
+</html>
