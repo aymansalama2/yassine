@@ -368,12 +368,18 @@ function renderOrders(list) {
                     ${statusLabel}
                 </span>
             </td>
-            <td class="px-3 py-2 align-middle text-right">
-                <button data-id="${id}" class="view-order-btn text-xs text-accent hover:text-white transition mr-2">
+            <td class="px-3 py-2 align-middle text-right space-x-2">
+                <button data-id="${id}" class="view-order-btn text-xs text-accent hover:text-white transition" title="Voir détails">
                     <i class="fa-solid fa-eye"></i>
                 </button>
-                <button data-id="${id}" class="update-status-btn text-xs text-blue-400 hover:text-blue-300 transition">
-                    <i class="fa-solid fa-pen-to-square"></i>
+                <select data-id="${id}" class="status-select-btn text-xs bg-primary-900 border border-white/10 rounded px-2 py-1 text-blue-300 hover:border-blue-400 transition" title="Changer statut">
+                    <option value="">Statut...</option>
+                    <option value="pending">En attente</option>
+                    <option value="completed">Complétée</option>
+                    <option value="cancelled">Annulée</option>
+                </select>
+                <button data-id="${id}" class="delete-order-btn text-xs text-red-400 hover:text-red-300 transition" title="Supprimer">
+                    <i class="fa-solid fa-trash"></i>
                 </button>
             </td>
         `;
@@ -386,8 +392,18 @@ function renderOrders(list) {
         btn.addEventListener('click', () => viewOrderDetails(btn.dataset.id));
     });
 
-    document.querySelectorAll('.update-status-btn').forEach(btn => {
-        btn.addEventListener('click', () => updateOrderStatus(btn.dataset.id));
+    document.querySelectorAll('.status-select-btn').forEach(select => {
+        select.addEventListener('change', (e) => {
+            const newStatus = e.target.value;
+            if (newStatus) {
+                updateOrderStatus(select.dataset.id, newStatus);
+                e.target.value = ''; // Reset select
+            }
+        });
+    });
+
+    document.querySelectorAll('.delete-order-btn').forEach(btn => {
+        btn.addEventListener('click', () => deleteOrder(btn.dataset.id));
     });
 }
 
@@ -459,25 +475,44 @@ function viewOrderDetails(id) {
 }
 
 // Update order status
-function updateOrderStatus(id) {
+function updateOrderStatus(id, newStatus) {
     const order = orders[id];
     if (!order) return;
 
-    const currentStatus = order.status || 'pending';
-    const newStatus = prompt('Nouveau statut (pending/completed/cancelled):', currentStatus);
-
-    if (!newStatus || !['pending', 'completed', 'cancelled'].includes(newStatus)) {
+    if (!confirm(`Changer le statut de la commande de "${order.customerName}" à "${newStatus}" ?`)) {
         return;
     }
 
     const orderRef = ref(database, `orders/${id}`);
     update(orderRef, { status: newStatus })
         .then(() => {
-            showToast('Statut mis à jour', 'success');
+            showToast('Statut mis à jour avec succès', 'success');
         })
         .catch((error) => {
             console.error('Error updating status:', error);
             showToast('Erreur lors de la mise à jour', 'error');
+        });
+}
+
+// Delete order
+function deleteOrder(id) {
+    const order = orders[id];
+    if (!order) return;
+
+    const confirmMsg = `⚠️ Supprimer définitivement la commande de "${order.customerName}" ?\n\nCette action est irréversible et supprimera toutes les données de la commande.`;
+
+    if (!confirm(confirmMsg)) {
+        return;
+    }
+
+    const orderRef = ref(database, `orders/${id}`);
+    remove(orderRef)
+        .then(() => {
+            showToast('Commande supprimée', 'success');
+        })
+        .catch((error) => {
+            console.error('Error deleting order:', error);
+            showToast('Erreur lors de la suppression', 'error');
         });
 }
 
