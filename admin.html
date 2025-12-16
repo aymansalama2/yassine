@@ -150,6 +150,48 @@
                 </form>
             </div>
         </div>
+
+        <!-- Section Commandes -->
+        <div class="mt-8 bg-primary-950/60 border border-white/10 rounded-3xl p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold tracking-wide">Commandes Clients</h2>
+                <div class="flex items-center gap-3">
+                    <select id="orderStatusFilter"
+                        class="rounded-full bg-primary-900 border border-white/10 px-4 py-2 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-accent/60">
+                        <option value="all">Toutes</option>
+                        <option value="pending">En attente</option>
+                        <option value="completed">Complétées</option>
+                        <option value="cancelled">Annulées</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="overflow-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-primary-900/80 border-b border-white/10 text-slate-300">
+                        <tr>
+                            <th class="text-left px-3 py-2 font-medium">Date</th>
+                            <th class="text-left px-3 py-2 font-medium">Client</th>
+                            <th class="text-left px-3 py-2 font-medium">Téléphone</th>
+                            <th class="text-left px-3 py-2 font-medium">Ville</th>
+                            <th class="text-left px-3 py-2 font-medium">Articles</th>
+                            <th class="text-right px-3 py-2 font-medium">Total</th>
+                            <th class="text-center px-3 py-2 font-medium">Statut</th>
+                            <th class="text-right px-3 py-2 font-medium">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersList" class="divide-y divide-white/5"></tbody>
+                </table>
+            </div>
+            <div id="loadingOrders" class="text-center py-8">
+                <div class="spinner-lg mx-auto"></div>
+                <p class="text-sm text-slate-400 mt-3">Chargement des commandes...</p>
+            </div>
+            <div id="noOrders" class="hidden text-center py-8">
+                <i class="fa-solid fa-inbox text-4xl text-slate-600 mb-3"></i>
+                <p class="text-sm text-slate-400">Aucune commande pour le moment</p>
+            </div>
+        </div>
     </main>
 
     <script type="module" src="./admin.js"></script>

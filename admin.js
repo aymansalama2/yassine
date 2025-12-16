@@ -272,3 +272,224 @@ function showToast(message, type = 'success') {
         setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
+
+// ==================== ORDERS MANAGEMENT ====================
+
+const ordersList = document.getElementById('ordersList');
+const loadingOrders = document.getElementById('loadingOrders');
+const noOrders = document.getElementById('noOrders');
+const orderStatusFilter = document.getElementById('orderStatusFilter');
+
+let orders = {};
+
+// Load orders with real-time listener
+function loadOrders() {
+    const ordersRef = ref(database, 'orders');
+
+    onValue(ordersRef, (snapshot) => {
+        orders = {};
+        const data = snapshot.val();
+
+        if (data) {
+            orders = data;
+        }
+
+        renderOrders(Object.entries(orders));
+        loadingOrders.style.display = 'none';
+    }, (error) => {
+        console.error('Error loading orders:', error);
+        loadingOrders.innerHTML = '<p class="text-sm text-red-400">Erreur de chargement des commandes</p>';
+    });
+}
+
+// Render orders
+function renderOrders(list) {
+    ordersList.innerHTML = '';
+
+    // Apply status filter
+    const statusFilter = orderStatusFilter.value;
+    if (statusFilter !== 'all') {
+        list = list.filter(([id, order]) => order.status === statusFilter);
+    }
+
+    // Sort by date (newest first)
+    list.sort(([idA, orderA], [idB, orderB]) => (orderB.createdAt || 0) - (orderA.createdAt || 0));
+
+    if (!list.length) {
+        ordersList.innerHTML = '<tr><td colspan="8" class="text-center py-8 text-sm text-slate-400">Aucune commande</td></tr>';
+        noOrders.classList.remove('hidden');
+        return;
+    }
+
+    noOrders.classList.add('hidden');
+
+    list.forEach(([id, order], index) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-primary-900/50 stagger-item show';
+        tr.style.animationDelay = `${index * 0.03}s`;
+
+        const date = order.createdAt ? new Date(order.createdAt).toLocaleString('fr-FR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }) : 'N/A';
+
+        const items = order.items || [];
+        const itemsSummary = items.length > 0
+            ? items.map(item => `${item.name} (x${item.qty})`).join(', ')
+            : 'N/A';
+
+        const statusColors = {
+            pending: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+            completed: 'bg-green-500/20 text-green-300 border-green-500/30',
+            cancelled: 'bg-red-500/20 text-red-300 border-red-500/30'
+        };
+
+        const statusLabels = {
+            pending: 'En attente',
+            completed: 'Complétée',
+            cancelled: 'Annulée'
+        };
+
+        const statusClass = statusColors[order.status] || statusColors.pending;
+        const statusLabel = statusLabels[order.status] || 'En attente';
+
+        tr.innerHTML = `
+            <td class="px-3 py-2 align-middle text-xs text-slate-300">${date}</td>
+            <td class="px-3 py-2 align-middle font-medium">${order.customerName || 'N/A'}</td>
+            <td class="px-3 py-2 align-middle text-xs text-slate-300">${order.phone || 'N/A'}</td>
+            <td class="px-3 py-2 align-middle text-xs text-slate-300">${order.city || 'N/A'}</td>
+            <td class="px-3 py-2 align-middle text-xs text-slate-400 max-w-xs truncate" title="${itemsSummary}">${itemsSummary}</td>
+            <td class="px-3 py-2 align-middle text-right font-semibold">${formatPrice(order.total || 0)}</td>
+            <td class="px-3 py-2 align-middle text-center">
+                <span class="inline-flex px-2 py-1 rounded-full text-xs border ${statusClass}">
+                    ${statusLabel}
+                </span>
+            </td>
+            <td class="px-3 py-2 align-middle text-right">
+                <button data-id="${id}" class="view-order-btn text-xs text-accent hover:text-white transition mr-2">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+                <button data-id="${id}" class="update-status-btn text-xs text-blue-400 hover:text-blue-300 transition">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </td>
+        `;
+
+        ordersList.appendChild(tr);
+    });
+
+    // Add event listeners
+    document.querySelectorAll('.view-order-btn').forEach(btn => {
+        btn.addEventListener('click', () => viewOrderDetails(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.update-status-btn').forEach(btn => {
+        btn.addEventListener('click', () => updateOrderStatus(btn.dataset.id));
+    });
+}
+
+// View order details
+function viewOrderDetails(id) {
+    const order = orders[id];
+    if (!order) return;
+
+    const items = order.items || [];
+    const itemsHtml = items.map(item =>
+        `<div class="flex justify-between py-1">
+            <span>${item.name} x${item.qty}</span>
+            <span>${formatPrice((item.price || 0) * item.qty)}</span>
+        </div>`
+    ).join('');
+
+    const modalHtml = `
+        <div class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4" id="orderModal">
+            <div class="bg-primary-950 border border-white/10 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-auto p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold">Détails de la commande</h3>
+                    <button class="text-slate-400 hover:text-white text-2xl" onclick="document.getElementById('orderModal').remove()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-4 text-sm">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-xs text-slate-400 mb-1">Client</p>
+                            <p class="font-medium">${order.customerName || 'N/A'}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 mb-1">Téléphone</p>
+                            <p class="font-medium">${order.phone || 'N/A'}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 mb-1">Ville</p>
+                            <p class="font-medium">${order.city || 'N/A'}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 mb-1">Date</p>
+                            <p class="font-medium">${order.createdAt ? new Date(order.createdAt).toLocaleString('fr-FR') : 'N/A'}</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-xs text-slate-400 mb-1">Adresse complète</p>
+                        <p class="font-medium">${order.address || 'N/A'}</p>
+                    </div>
+
+                    <div class="border-t border-white/10 pt-4">
+                        <p class="text-xs text-slate-400 mb-3">Articles commandés</p>
+                        <div class="bg-primary-900/50 rounded-xl p-4 space-y-2">
+                            ${itemsHtml}
+                        </div>
+                    </div>
+
+                    <div class="border-t border-white/10 pt-4 flex justify-between items-center text-lg font-semibold">
+                        <span>Total</span>
+                        <span class="text-accent">${formatPrice(order.total || 0)}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+// Update order status
+function updateOrderStatus(id) {
+    const order = orders[id];
+    if (!order) return;
+
+    const currentStatus = order.status || 'pending';
+    const newStatus = prompt('Nouveau statut (pending/completed/cancelled):', currentStatus);
+
+    if (!newStatus || !['pending', 'completed', 'cancelled'].includes(newStatus)) {
+        return;
+    }
+
+    const orderRef = ref(database, `orders/${id}`);
+    update(orderRef, { status: newStatus })
+        .then(() => {
+            showToast('Statut mis à jour', 'success');
+        })
+        .catch((error) => {
+            console.error('Error updating status:', error);
+            showToast('Erreur lors de la mise à jour', 'error');
+        });
+}
+
+// Filter orders by status
+orderStatusFilter.addEventListener('change', () => {
+    renderOrders(Object.entries(orders));
+});
+
+// Load orders when authenticated
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        loadOrders();
+    }
+});
+
