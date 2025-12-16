@@ -491,79 +491,82 @@ function showSuccessAndRedirect() {
 loadProducts();
 
 // ========== SLIDER FUNCTIONALITY ==========
-const sliderItems = document.querySelectorAll('.slider-item');
-const sliderDots = document.querySelectorAll('.slider-dot');
-const prevSlideBtn = document.getElementById('prevSlide');
-const nextSlideBtn = document.getElementById('nextSlide');
+document.addEventListener('DOMContentLoaded', function () {
+  const sliderItems = document.querySelectorAll('.slider-item');
+  const sliderDots = document.querySelectorAll('.slider-dot');
+  const prevSlideBtn = document.getElementById('prevSlide');
+  const nextSlideBtn = document.getElementById('nextSlide');
 
-let currentSlide = 0;
-let sliderInterval;
+  let currentSlide = 0;
+  let sliderInterval;
 
-function showSlide(index) {
-  // Hide all slides
-  sliderItems.forEach(item => {
-    item.style.opacity = '0';
+  function showSlide(index) {
+    // Hide all slides
+    sliderItems.forEach(item => {
+      item.style.opacity = '0';
+    });
+
+    // Update dots
+    sliderDots.forEach((dot, i) => {
+      if (i === index) {
+        dot.classList.remove('bg-white/30');
+        dot.classList.add('bg-accent');
+      } else {
+        dot.classList.remove('bg-accent');
+        dot.classList.add('bg-white/30');
+      }
+    });
+
+    // Show current slide
+    sliderItems[index].style.opacity = '100';
+    currentSlide = index;
+  }
+
+  function nextSlide() {
+    const next = (currentSlide + 1) % sliderItems.length;
+    showSlide(next);
+  }
+
+  function prevSlide() {
+    const prev = (currentSlide - 1 + sliderItems.length) % sliderItems.length;
+    showSlide(prev);
+  }
+
+  function startSlider() {
+    sliderInterval = setInterval(nextSlide, 5000); // Change every 5 seconds
+  }
+
+  function resetSlider() {
+    clearInterval(sliderInterval);
+    startSlider();
+  }
+
+  // Event listeners for navigation
+  if (nextSlideBtn) {
+    nextSlideBtn.addEventListener('click', () => {
+      nextSlide();
+      resetSlider();
+    });
+  }
+
+  if (prevSlideBtn) {
+    prevSlideBtn.addEventListener('click', () => {
+      prevSlide();
+      resetSlider();
+    });
+  }
+
+  // Event listeners for dots
+  sliderDots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      showSlide(index);
+      resetSlider();
+    });
   });
-  
-  // Update dots
-  sliderDots.forEach((dot, i) => {
-    if (i === index) {
-      dot.classList.remove('bg-white/30');
-      dot.classList.add('bg-accent');
-    } else {
-      dot.classList.remove('bg-accent');
-      dot.classList.add('bg-white/30');
-    }
-  });
-  
-  // Show current slide
-  sliderItems[index].style.opacity = '100';
-  currentSlide = index;
-}
 
-function nextSlide() {
-  const next = (currentSlide + 1) % sliderItems.length;
-  showSlide(next);
-}
-
-function prevSlide() {
-  const prev = (currentSlide - 1 + sliderItems.length) % sliderItems.length;
-  showSlide(prev);
-}
-
-function startSlider() {
-  sliderInterval = setInterval(nextSlide, 5000); // Change every 5 seconds
-}
-
-function resetSlider() {
-  clearInterval(sliderInterval);
-  startSlider();
-}
-
-// Event listeners for navigation
-if (nextSlideBtn) {
-  nextSlideBtn.addEventListener('click', () => {
-    nextSlide();
-    resetSlider();
-  });
-}
-
-if (prevSlideBtn) {
-  prevSlideBtn.addEventListener('click', () => {
-    prevSlide();
-    resetSlider();
-  });
-}
-
-// Event listeners for dots
-sliderDots.forEach((dot, index) => {
-  dot.addEventListener('click', () => {
-    showSlide(index);
-    resetSlider();
-  });
+  // Start the slider
+  if (sliderItems.length > 0) {
+    startSlider();
+  }
 });
 
-// Start the slider
-if (sliderItems.length > 0) {
-  startSlider();
-}
